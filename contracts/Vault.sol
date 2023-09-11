@@ -10,6 +10,8 @@ contract VaultResolver is SchemaResolver {
         attester = _atteser;
     }
 
+    error InvalidAttester();
+
     address public attester;
 
     /// @notice A resolver callback that should be implemented by child contracts.
@@ -24,6 +26,7 @@ contract VaultResolver is SchemaResolver {
         Attestation calldata attestation,
         uint256 value
     ) internal virtual override returns (bool) {
+        if (attestation.attester != attester) revert InvalidAttester();
         return true;
     }
 
@@ -38,6 +41,7 @@ contract VaultResolver is SchemaResolver {
         Attestation calldata attestation,
         uint256 value
     ) internal virtual override returns (bool) {
+        if (attestation.attester != attester) revert InvalidAttester();
         return true;
     }
 }
